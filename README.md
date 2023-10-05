@@ -1,1 +1,2 @@
 # eur-treasury
+init
