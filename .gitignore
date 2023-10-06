@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# idea folder
+.idea
+
 # BlueJ files
 *.ctxt
 
