@@ -10,7 +10,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic treasuryTopic() {
-        return TopicBuilder.name("eur_treasury")
+        return TopicBuilder.name("eur-treasury-topic")
                  .build();
     }
 

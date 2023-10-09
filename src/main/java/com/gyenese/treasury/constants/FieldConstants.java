@@ -13,6 +13,9 @@ public final class FieldConstants {
     public static final String DB_FIELD_MUTATION_CURRENCY = "currency";
     // account
     public static final String DB_FIELD_ACCOUNT_ID = "id";
+    public static final String DB_FIELD_FIRST_NAME = "first_name";
+    public static final String DB_FIELD_LAST_NAME = "last_name";
+    public static final String DB_FIELD_EMAIL = "email";
     // balance
     public static final String DB_FIELD_BALANCE_ID = "id";
     public static final String DB_FIELD_BALANCE_ACCOUNT_ID = "account_id";

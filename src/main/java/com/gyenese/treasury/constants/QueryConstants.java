@@ -36,7 +36,7 @@ public final class QueryConstants {
     public static final String INSERT_BALANCE = "INSERT INTO balance(account_id, currency)\n"
             + "VALUES (:account_id, :currency);";
 
-    public static final String SELECT_BALANCE_FOR_UPDATE = "SELECT *\n"
+    public static final String GET_BALANCE_FOR_UPDATE = "SELECT *\n"
             + "FROM balance b\n"
             + "WHERE b.account_id IN (:accountIds)\n"
             + "  AND b.currency = :currency FOR\n"
@@ -49,5 +49,20 @@ public final class QueryConstants {
 
     public static final String INSERT_TRANSACTION = "INSERT INTO transaction(sending_id, receiving_id, amount, currency, xfer_date)\n"
             + "VALUES (:sendingId, :receivingId, :amount, :currency, :xferDate);";
+
+    public static final String GET_ACCOUNT_BY_ID = "SELECT *\n"
+            + "FROM account a\n"
+            + "WHERE a.id = :id;";
+
+    public static final String GET_AMOUNT_BY_ACCOUNT_ID_AND_CURRENCY = "SELECT b.amount\n"
+            + "FROM balance b\n"
+            + "WHERE b.account_id = :account_id\n"
+            + "  AND b.currency = :currency;";
+
+    public static final String GET_BALANCE_BY_ACCOUNT_ID_AND_CURRENCY = "SELECT *\n"
+            + "FROM balance b\n"
+            + "WHERE b.account_id = :accountId\n"
+            + "  AND b.currency = :currency;";
+
 
 }

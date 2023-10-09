@@ -9,13 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.gyenese.treasury.constants.FieldConstants.*;
-import static com.gyenese.treasury.constants.QueryConstants.INSERT_BALANCE;
-import static com.gyenese.treasury.constants.QueryConstants.LIST_ACCOUNT_IDS_FROM_BALANCE_BY_CURRENCY_AND_IDS;
+import static com.gyenese.treasury.constants.QueryConstants.*;
 
 @AllArgsConstructor
 @Repository
@@ -58,11 +58,12 @@ public class BalanceRepositoryImpl implements BalanceRepository {
 
     @Override
     public List<BalanceDto> selectForUpdateByAccountsAndCurrency(List<Long> accountIds, String currency) throws BalanceDaoException {
+
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_IDS, accountIds);
             namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
-            return namedParameterJdbcTemplate.query(QueryConstants.SELECT_BALANCE_FOR_UPDATE, namedParameters, new BalanceRowMapper());
+            return namedParameterJdbcTemplate.query(QueryConstants.GET_BALANCE_FOR_UPDATE, namedParameters, new BalanceRowMapper());
         } catch (Exception e) {
             // todo logs
             throw new BalanceDaoException(e);
@@ -70,7 +71,7 @@ public class BalanceRepositoryImpl implements BalanceRepository {
     }
 
     @Override
-    public void updateAmountByAccountAndCurrency(Long accountId, double amount, String currency) throws BalanceDaoException {
+    public void updateAmountByAccountAndCurrency(long accountId, double amount, String currency) throws BalanceDaoException {
         //todo logs
         try {
             Map<String, Object> namedParameters = new HashMap<>();
@@ -81,5 +82,30 @@ public class BalanceRepositoryImpl implements BalanceRepository {
         } catch (Exception e) {
             throw new BalanceDaoException(e);
         }
+    }
+
+    @Override
+    public Double getAmountByAccountIdAndCurrency(long accountId, String currency) throws BalanceDaoException {
+        try {
+            Map<String, Object> namedParameters = new HashMap<>();
+            namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_ID, accountId);
+            namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
+            return namedParameterJdbcTemplate.queryForObject(GET_AMOUNT_BY_ACCOUNT_ID_AND_CURRENCY, namedParameters, Double.class);
+        } catch (Exception e) {
+            throw new BalanceDaoException(e);
+        }
+    }
+
+    @Override
+    public List<BalanceDto> getBalanceByAccountIdAndCurrency(long accountId, String currency) throws BalanceDaoException {
+        try {
+            Map<String, Object> namedParameters = new HashMap<>();
+            namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_ID, accountId);
+            namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
+            return namedParameterJdbcTemplate.query(GET_BALANCE_BY_ACCOUNT_ID_AND_CURRENCY, namedParameters, new BalanceRowMapper());
+        } catch (Exception e) {
+            throw new BalanceDaoException(e);
+        }
+
     }
 }

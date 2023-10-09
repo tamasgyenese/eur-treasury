@@ -13,5 +13,9 @@ public interface BalanceRepository {
 
     List<BalanceDto> selectForUpdateByAccountsAndCurrency(List<Long> accountIds, String currency) throws BalanceDaoException;
 
-    void updateAmountByAccountAndCurrency(Long accountId, double amount, String currency) throws BalanceDaoException;
+    void updateAmountByAccountAndCurrency(long accountId, double amount, String currency) throws BalanceDaoException;
+
+    Double getAmountByAccountIdAndCurrency(long accountId, String currency) throws BalanceDaoException;
+
+    List<BalanceDto> getBalanceByAccountIdAndCurrency(long accountId, String currency) throws BalanceDaoException;
 }

@@ -40,7 +40,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public void save(long sendingId, long receivingId, double amount, String currency, LocalDateTime xferDate) throws TransactionDaoException {
-        // todo logs
+
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_SENDING_ID, sendingId);
