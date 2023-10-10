@@ -6,9 +6,13 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class MutationMapper implements RowMapper<MutationDto> {
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
     @Override
@@ -18,8 +22,12 @@ public class MutationMapper implements RowMapper<MutationDto> {
         mutationDto.setAmount(rs.getDouble(FieldConstants.DB_FIELD_MUTATION_AMOUNT));
         mutationDto.setPartnerName(rs.getString(FieldConstants.DB_FIELD_MUTATION_PARTNER_NAME));
         mutationDto.setCurrency(rs.getString(FieldConstants.DB_FIELD_MUTATION_CURRENCY));
-        mutationDto.setDate(rs.getDate(FieldConstants.DB_FIELD_MUTATION_XFER_DATE).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        mutationDto.setDate(stringToLocalDateTime(rs.getString(FieldConstants.DB_FIELD_MUTATION_XFER_DATE)));
 
         return mutationDto;
+    }
+
+    private LocalDateTime stringToLocalDateTime(String dateString) {
+        return LocalDateTime.parse(dateString, formatter);
     }
 }

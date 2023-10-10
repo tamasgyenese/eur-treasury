@@ -40,15 +40,18 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public void save(long sendingId, long receivingId, double amount, String currency, LocalDateTime xferDate) throws TransactionDaoException {
-
+        log.debug("Save transaction between accounts: {} {} with amount: {} {}", sendingId, receivingId, amount, currency);
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_SENDING_ID, sendingId);
             namedParameters.put(DB_QUERY_PARAM_RECEIVING_ID, receivingId);
             namedParameters.put(DB_QUERY_PARAM_AMOUNT, amount);
             namedParameters.put(DB_QUERY_PARAM_TRANSACTION_DATE, xferDate);
+            namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
             namedParameterJdbcTemplate.update(QueryConstants.INSERT_TRANSACTION, namedParameters);
         } catch (Exception e) {
+            log.error("Error dugin call save transaction between accounts: {} {} with amount: {} {}", sendingId, receivingId, amount, currency);
+            log.error("stack: ", e);
             throw new TransactionDaoException(e);
         }
     }

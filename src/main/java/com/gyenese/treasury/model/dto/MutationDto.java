@@ -2,7 +2,6 @@ package com.gyenese.treasury.model.dto;
 
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 

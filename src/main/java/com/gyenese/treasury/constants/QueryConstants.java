@@ -18,7 +18,7 @@ public final class QueryConstants {
             + "                 WHEN t.sending_id = :id THEN -1 * t.amount\n"
             + "                 WHEN t.receiving_id = :id THEN amount\n"
             + "                 END                                                amount,\n"
-            + "             IF(t.sending_id = :id, t.receiving_id, t.receiving_id) partner\n"
+            + "             IF(t.sending_id = :id, t.receiving_id, t.sending_id) partner\n"
             + "      FROM transaction t\n"
             + "      WHERE t.receiving_id = :id\n"
             + "         OR t.sending_id = :id) AS result\n"
@@ -34,7 +34,7 @@ public final class QueryConstants {
             + "  AND b.currency = :currency;";
 
     public static final String INSERT_BALANCE = "INSERT INTO balance(account_id, currency)\n"
-            + "VALUES (:account_id, :currency);";
+            + "VALUES (:accountId, :currency);";
 
     public static final String GET_BALANCE_FOR_UPDATE = "SELECT *\n"
             + "FROM balance b\n"
@@ -56,7 +56,7 @@ public final class QueryConstants {
 
     public static final String GET_AMOUNT_BY_ACCOUNT_ID_AND_CURRENCY = "SELECT b.amount\n"
             + "FROM balance b\n"
-            + "WHERE b.account_id = :account_id\n"
+            + "WHERE b.account_id = :accountId\n"
             + "  AND b.currency = :currency;";
 
     public static final String GET_BALANCE_BY_ACCOUNT_ID_AND_CURRENCY = "SELECT *\n"

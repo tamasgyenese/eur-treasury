@@ -40,6 +40,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public AccountDto getAccountById(long id) throws AccountDaoException {
+        log.debug("Get account for id: {}", id);
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(FieldConstants.DB_FIELD_ACCOUNT_ID, id);

@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,21 +57,22 @@ public class BalanceRepositoryImpl implements BalanceRepository {
 
     @Override
     public List<BalanceDto> selectForUpdateByAccountsAndCurrency(List<Long> accountIds, String currency) throws BalanceDaoException {
-
+        log.debug("Call select for update to lock rows for ids: {} and currency: {}", accountIds, currency);
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_IDS, accountIds);
             namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
             return namedParameterJdbcTemplate.query(QueryConstants.GET_BALANCE_FOR_UPDATE, namedParameters, new BalanceRowMapper());
         } catch (Exception e) {
-            // todo logs
+            log.error("Error during call select for update to lock rows for ids: {} and currency: {}", accountIds, currency);
+            log.error("stack: ", e);
             throw new BalanceDaoException(e);
         }
     }
 
     @Override
     public void updateAmountByAccountAndCurrency(long accountId, double amount, String currency) throws BalanceDaoException {
-        //todo logs
+        log.debug("Update amount for account: {} with amount: {} {}", accountId, amount, currency);
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_ID, accountId);
@@ -80,30 +80,38 @@ public class BalanceRepositoryImpl implements BalanceRepository {
             namedParameters.put(DB_QUERY_PARAM_AMOUNT, amount);
             namedParameterJdbcTemplate.update(QueryConstants.UPDATE_BALANCE_AMOUNT_BY_ACCOUNT_AND_CURRENCY, namedParameters);
         } catch (Exception e) {
+            log.error("Error during call update amount for account: {} with amount: {} {}", accountId, amount, currency);
+            log.error("stack: ", e);
             throw new BalanceDaoException(e);
         }
     }
 
     @Override
     public Double getAmountByAccountIdAndCurrency(long accountId, String currency) throws BalanceDaoException {
+        log.debug("Get {} amount for account: {}", currency, accountId);
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_ID, accountId);
             namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
             return namedParameterJdbcTemplate.queryForObject(GET_AMOUNT_BY_ACCOUNT_ID_AND_CURRENCY, namedParameters, Double.class);
         } catch (Exception e) {
+            log.error("Error during call get {} amount for account: {}", currency, accountId);
+            log.error("stack: ", e);
             throw new BalanceDaoException(e);
         }
     }
 
     @Override
     public List<BalanceDto> getBalanceByAccountIdAndCurrency(long accountId, String currency) throws BalanceDaoException {
+        log.debug("Get {} balance for account: {}", currency, accountId);
         try {
             Map<String, Object> namedParameters = new HashMap<>();
             namedParameters.put(DB_QUERY_PARAM_BALANCE_ACCOUNT_ID, accountId);
             namedParameters.put(DB_QUERY_PARAM_CURRENCY, currency);
             return namedParameterJdbcTemplate.query(GET_BALANCE_BY_ACCOUNT_ID_AND_CURRENCY, namedParameters, new BalanceRowMapper());
         } catch (Exception e) {
+            log.error("Error during call get {} balance for account: {}", currency, accountId);
+            log.error("stack: ", e);
             throw new BalanceDaoException(e);
         }
 

@@ -2,7 +2,6 @@ package com.gyenese.treasury.dao;
 
 import com.gyenese.treasury.exception.AccountDaoException;
 import com.gyenese.treasury.model.dto.AccountDto;
-import com.gyenese.treasury.model.dto.BalanceDto;
 
 public interface AccountRepository {
 

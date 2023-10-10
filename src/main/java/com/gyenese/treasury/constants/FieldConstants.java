@@ -25,8 +25,8 @@ public final class FieldConstants {
     public static final String DB_QUERY_PARAM_ID = "id";
     public static final String DB_QUERY_PARAM_ID_LIST = "ids";
     public static final String DB_QUERY_PARAM_CURRENCY = "currency";
-    public static final String DB_QUERY_PARAM_BALANCE_ACCOUNT_ID = "account_id";
-    public static final String DB_QUERY_PARAM_BALANCE_ACCOUNT_IDS = "account_ids";
+    public static final String DB_QUERY_PARAM_BALANCE_ACCOUNT_ID = "accountId";
+    public static final String DB_QUERY_PARAM_BALANCE_ACCOUNT_IDS = "accountIds";
     public static final String DB_QUERY_PARAM_AMOUNT = "amount";
     public static final String DB_QUERY_PARAM_SENDING_ID = "sendingId";
     public static final String DB_QUERY_PARAM_RECEIVING_ID = "receivingId";

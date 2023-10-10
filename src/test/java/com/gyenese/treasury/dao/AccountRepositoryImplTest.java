@@ -66,18 +66,6 @@ public class AccountRepositoryImplTest {
         });
     }
 
-    @Test
-    @DisplayName("Get Email by ID")
-    public void getEmailById() throws AccountDaoException {
-
-        Long id = 1L;
-        when(namedParameterJdbcTemplate.queryForObject(anyString(), eq(new HashMap<>() {{
-            put(DB_FIELD_ACCOUNT_ID, id);
-        }}), eq(String.class))).thenReturn("email");
-
-        assertEquals("email", onTest.getAccountById(id));
-    }
-
 
     @Test
     @DisplayName("Error during getting email by error")

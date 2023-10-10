@@ -3,7 +3,6 @@ package com.gyenese.treasury.dao;
 import com.gyenese.treasury.exception.TransactionDaoException;
 import com.gyenese.treasury.model.dto.MutationDto;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 

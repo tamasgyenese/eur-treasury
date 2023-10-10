@@ -14,5 +14,5 @@ public final class EmailPatterns {
             "so Your transaction have not been completed successfully";
     public static final String NOTIFY_ACCOUNT_FOR_NOT_ENOUGH_BALANCE_SUBJECT = "Your balance is not sufficient!";
     public static final String NOTIFY_ACCOUNT_FOR_NOT_ENOUGH_BALANCE_BODY = "Dear {0} {1}, \n Hope You are doing well.\n" +
-            "Your balance is not sufficient for this transaction: {} {}.!";
+            "Your balance is not sufficient for this transaction: {2} {3}.!";
 }

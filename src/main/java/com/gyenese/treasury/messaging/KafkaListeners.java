@@ -5,7 +5,6 @@ import com.gyenese.treasury.service.TreasuryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +16,8 @@ public class KafkaListeners {
 
     @KafkaListener(topics = "eur-treasury-topic", groupId = "eur-treasury-group-id", containerFactory = "transactionListener")
     public void consumeTransaction(TransactionEvent transactionEvent) {
-        treasuryService.updateBalancesByTransactions(transactionEvent.getAmount(), transactionEvent.getSendingId(), transactionEvent.getReceivingId(), "EUR", transactionEvent.getXferDate());
+        treasuryService.updateBalancesByTransactions(transactionEvent.getAmount(), transactionEvent.getSendingId(),
+                transactionEvent.getReceivingId(), "EUR", transactionEvent.getXferDate());
     }
 
 

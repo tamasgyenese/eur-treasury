@@ -9,6 +9,7 @@ import com.gyenese.treasury.model.dto.AccountDto;
 import com.gyenese.treasury.model.dto.BalanceDto;
 import com.gyenese.treasury.model.dto.MutationDto;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ import java.util.List;
 
 import static com.gyenese.treasury.constants.EmailPatterns.*;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class TreasuryService {
@@ -32,7 +33,8 @@ public class TreasuryService {
     private final BalanceRepository balanceRepository;
     private final EmailService emailService;
 
-    private static final String supportEmail = "treasury_eur@bitvavo_nonvalid.com";
+    @Value("${support.email}")
+    private String supportEmail;
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -53,7 +55,7 @@ public class TreasuryService {
                         MessageFormat.format(NOTIFY_ACCOUNT_ERROR_BODY, accountDto.getFirstName(), accountDto.getLastName(), amount, currency));
                 emailService.send(supportEmail, SUPPORT_SUBJECT, MessageFormat.format(SUPPORT_BODY, e));
             } catch (AccountDaoException accountDaoException) {
-                emailService.send(supportEmail, SUPPORT_SUBJECT, MessageFormat.format(SUPPORT_BODY, e));
+                emailService.send(supportEmail, SUPPORT_SUBJECT, MessageFormat.format(SUPPORT_BODY, accountDaoException));
             }
         } catch (BalanceNotEnoughException e) {
             try {
@@ -61,7 +63,7 @@ public class TreasuryService {
                 emailService.send(accountDto.getEmail(), NOTIFY_ACCOUNT_FOR_NOT_ENOUGH_BALANCE_SUBJECT,
                         MessageFormat.format(NOTIFY_ACCOUNT_FOR_NOT_ENOUGH_BALANCE_BODY, accountDto.getFirstName(), accountDto.getLastName(), amount, currency));
             } catch (AccountDaoException accountDaoException) {
-                emailService.send(supportEmail, SUPPORT_SUBJECT, MessageFormat.format(SUPPORT_BODY, e));
+                emailService.send(supportEmail, SUPPORT_SUBJECT, MessageFormat.format(SUPPORT_BODY, accountDaoException));
             }
         }
     }
@@ -85,6 +87,7 @@ public class TreasuryService {
     }
 
     public BalanceDto getBalanceByAccountIdAndCurrency(long accountId, String currency) {
+        log.debug("Get balance for Account: {} with currency: {}", accountId, currency);
         boolean isAccountExists;
         try {
             isAccountExists = accountRepository.isAccountExists(accountId);
@@ -92,15 +95,17 @@ public class TreasuryService {
             throw new InternalServerError("Unknown server error during getting mutations");
         }
         if (!isAccountExists) {
+            log.debug("Account not found, id: {}", accountId);
             throw new AccountNotFoundException(accountId);
         }
-        List<BalanceDto> balanceByAccountIdAndCurrency = new ArrayList<>();
+        List<BalanceDto> balanceByAccountIdAndCurrency;
         try {
             balanceByAccountIdAndCurrency = balanceRepository.getBalanceByAccountIdAndCurrency(accountId, currency);
         } catch (BalanceDaoException e) {
             throw new InternalServerError("Unknown server error during getting mutations");
         }
         if (CollectionUtils.isEmpty(balanceByAccountIdAndCurrency)) {
+            log.debug("Balance not found for account: {} with currency: {}", accountId, currency);
             throw new BalanceNotFoundException(accountId, currency);
         }
         return balanceByAccountIdAndCurrency.get(0);
