@@ -63,6 +63,4 @@ public final class QueryConstants {
             + "FROM balance b\n"
             + "WHERE b.account_id = :accountId\n"
             + "  AND b.currency = :currency;";
-
-
 }

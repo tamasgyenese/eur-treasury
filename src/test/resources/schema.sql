@@ -1,3 +1,8 @@
+SET MODE MYSQL;
+
+DROP TABLE IF EXISTS balance;
+DROP TABLE IF EXISTS transaction;
+DROP TABLE IF EXISTS account;
 CREATE TABLE account
 (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -10,7 +15,7 @@ CREATE TABLE balance
 (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     account_id BIGINT                            NOT NULL,
-    amount     DECIMAL                           NOT NULL DEFAULT 0,
+    amount     DOUBLE                            NOT NULL DEFAULT 0,
     currency   VARCHAR(3)                        NOT NULL,
     FOREIGN KEY (account_id) REFERENCES account (id),
     CONSTRAINT uc_balance UNIQUE (account_id, currency)
