@@ -8,7 +8,6 @@ import com.gyenese.treasury.exception.*;
 import com.gyenese.treasury.model.dto.AccountDto;
 import com.gyenese.treasury.model.dto.BalanceDto;
 import com.gyenese.treasury.model.dto.MutationDto;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
